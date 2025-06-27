@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Booth App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="header">
+            <h1>📸 Photo Booth</h1>
+            <div class="header-controls">
+                <span class="template-info">🎨 Classic Strip Template</span>
+                <button id="settingsBtn" class="btn btn-secondary">⚙️ Cài đặt</button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Camera Section -->
+            <div class="camera-section">
+                <div class="camera-container">
+                    <video id="video" autoplay muted></video>
+                    <canvas id="canvas" style="display: none;"></canvas>
+                    
+                    <!-- Timer Overlay -->
+                    <div id="timer" class="timer">3</div>
+                    
+                    <!-- Multi-photo progress -->
+                    <div id="photoProgress" class="photo-progress" style="display: none;">
+                        <div class="progress-text">Chụp ảnh <span id="currentPhotoNumber">1</span>/4</div>
+                        <div class="progress-bar">
+                            <div id="progressFill" class="progress-fill"></div>
+                        </div>
+                        <div class="progress-photos">
+                            <div class="photo-slot" id="slot1">1</div>
+                            <div class="photo-slot" id="slot2">2</div>
+                            <div class="photo-slot" id="slot3">3</div>
+                            <div class="photo-slot" id="slot4">4</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Preview Modal -->
+                    <div id="previewModal" class="modal">
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <img id="previewImage" src="" alt="Preview">
+                            <div class="modal-actions">
+                                <button id="retakeBtn" class="btn btn-secondary">📷 Chụp lại</button>
+                                <button id="applyTemplateBtn" class="btn btn-primary">🎨 Áp dụng Template</button>
+                                <button id="printBtn" class="btn btn-success">🖨️ In ảnh</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Camera Controls -->
+                <div class="camera-controls">
+                    <button id="captureBtn" class="btn btn-primary btn-large">
+                        📷 Chụp 4 ảnh
+                    </button>
+                    <div class="timer-controls">
+                        <label>Hẹn giờ mỗi ảnh:</label>
+                        <div class="timer-buttons">
+                            <button class="timer-btn" data-timer="0">Ngay lập tức</button>
+                            <button class="timer-btn active" data-timer="3">3 giây</button>
+                            <button class="timer-btn" data-timer="5">5 giây</button>
+                            <button class="timer-btn" data-timer="10">10 giây</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Photo Preview & Template -->
+            <div class="preview-section">
+                <h3>Kết quả</h3>
+                <div id="photoPreview" class="photo-preview">
+                    <div class="preview-placeholder">
+                        <p>📸 Chụp ảnh để xem kết quả</p>
+                    </div>
+                </div>
+                <div id="previewControls" class="preview-controls" style="display: none;">
+                    <button id="printPreviewBtn" class="btn btn-success btn-large">🖨️ In ảnh ngay</button>
+                    <button id="retakePreviewBtn" class="btn btn-secondary">📷 Chụp lại</button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="status-bar">
+                <span id="cameraStatus">📹 Camera: Disconnected</span>
+                <span id="printerStatus">🖨️ Printer: Ready</span>
+            </div>
+        </footer>
+
+        <!-- Settings Modal -->
+        <div id="settingsModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Cài đặt</h2>
+                <div class="settings-grid">
+                    <div class="setting-item">
+                        <label>Camera:</label>
+                        <select id="cameraSelect">
+                            <option value="">Đang tải danh sách camera...</option>
+                        </select>
+                        <button id="refreshCamerasBtn" class="btn btn-secondary btn-small">🔄 Làm mới</button>
+                    </div>
+                    <div class="setting-item">
+                        <label>Độ phân giải:</label>
+                        <select id="resolutionSelect">
+                            <option value="640x480">640x480</option>
+                            <option value="1280x720" selected>1280x720</option>
+                            <option value="1920x1080">1920x1080</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label>Máy in:</label>
+                        <select id="printerSelect">
+                            <option value="">Đang tải danh sách máy in...</option>
+                        </select>
+                        <button id="refreshPrintersBtn" class="btn btn-secondary btn-small">🔄 Làm mới</button>
+                    </div>
+                    <div class="setting-item">
+                        <label>Chế độ tự động in:</label>
+                        <input type="checkbox" id="autoPrint">
+                    </div>
+                    <div class="setting-item">
+                        <label>Số lượng bản in:</label>
+                        <input type="number" id="printCopies" value="1" min="1" max="10">
+                    </div>
+                    <div class="setting-item">
+                        <label>Kích thước giấy:</label>
+                        <select id="paperSizeSelect">
+                            <option value="A4">A4 (210 x 297 mm)</option>
+                            <option value="A5">A5 (148 x 210 mm)</option>
+                            <option value="4x6" selected>4x6 inch (102 x 152 mm)</option>
+                            <option value="5x7">5x7 inch (127 x 178 mm)</option>
+                            <option value="custom">Tùy chỉnh</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label>Chất lượng in:</label>
+                        <select id="printQualitySelect">
+                            <option value="draft">Nháp (Draft)</option>
+                            <option value="normal" selected>Bình thường (Normal)</option>
+                            <option value="high">Cao (High)</option>
+                            <option value="best">Tốt nhất (Best)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="renderer.js"></script>
+</body>
+</html>

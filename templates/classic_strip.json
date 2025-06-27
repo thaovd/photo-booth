@@ -1,0 +1,68 @@
+{
+  "name": "Classic Photo Strip",
+  "width": 600,
+  "height": 1800,
+  "backgroundColor": "#ffffff",
+  "photoSlots": [
+    {
+      "x": 50,
+      "y": 50,
+      "width": 500,
+      "height": 350,
+      "border": {
+        "width": 3,
+        "color": "#333333"
+      }
+    },
+    {
+      "x": 50,
+      "y": 450,
+      "width": 500,
+      "height": 350,
+      "border": {
+        "width": 3,
+        "color": "#333333"
+      }
+    },
+    {
+      "x": 50,
+      "y": 850,
+      "width": 500,
+      "height": 350,
+      "border": {
+        "width": 3,
+        "color": "#333333"
+      }
+    },
+    {
+      "x": 50,
+      "y": 1250,
+      "width": 500,
+      "height": 350,
+      "border": {
+        "width": 3,
+        "color": "#333333"
+      }
+    }
+  ],
+  "texts": [
+    {
+      "content": "📸 Photo Booth",
+      "x": 300,
+      "y": 1700,
+      "font": "Arial",
+      "size": 32,
+      "color": "#333333",
+      "align": "center"
+    },
+    {
+      "content": "CĐT Team • Capture the Moment",
+      "x": 300,
+      "y": 1750,
+      "font": "Arial",
+      "size": 18,
+      "color": "#666666",
+      "align": "center"
+    }
+  ]
+}
